@@ -3,11 +3,11 @@ const contacto = require('./../model/contacto');
 // find equivale a el select
 
 module.exports = {
-    busqueda : (req, res) => {  
+    get : (req, res) => {  
         const nombre = req.query.nombre;      
         const correo = req.query.correo;
         if (correo === undefined && nombre !== undefined) {
-            contacto.findOne({status : 1, nombre : nombre})
+            contacto.find({status : 1, "nombre" : {$regex: '.*'+nombre+'.*'}})
             .then(data => {
                 res.send(data);
             })
@@ -16,7 +16,7 @@ module.exports = {
             });
         }
         else if (correo !== undefined && nombre === undefined) {
-            contacto.findOne({status : 1, correo : correo})
+            contacto.find({status : 1,"correo" :{$regex: '.*'+correo+'.*'} })
             .then(data => {
                 res.send(data);
             })
