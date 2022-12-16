@@ -1,4 +1,4 @@
-const contacto = require('./../model/contacto');
+const contacto = require('../model/contacto');
 
 // find equivale a el select
 
