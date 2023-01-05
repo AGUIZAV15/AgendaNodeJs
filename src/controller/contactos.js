@@ -1,12 +1,17 @@
+const jwt = require('jsonwebtoken');
 const contacto = require('../model/contacto');
 
+require('dotenv').config();
 // find equivale a el select
 
 module.exports = {
     get : (req, res) => {  
+       
+
         const nombre = req.query.nombre;      
-        const correo = req.query.correo;
-        if (correo === undefined && nombre !== undefined) {
+        const correo = req.query.correo;                
+       
+               if (correo === undefined && nombre !== undefined) {
             contacto.find({status : 1, "nombre" : {$regex: '.*'+nombre+'.*'}})
             .then(data => {
                 res.send(data);
@@ -33,17 +38,20 @@ module.exports = {
                 res.status(404).send('error en busqueda');
             });
         }
-        
+    
     },
-    ver: (req, res) => {
-        const id = req.params.id;        
-        contacto.findOne({status : 1, _id : id})
-                .then(data => {
-                    res.send(data);
-                })
-                .catch(err => {
-                    res.status(404).send('error en busqueda');
-                });
+    ver: (req, res) => {        
+        const id = req.params.id;    
+
+            contacto.findOne({status : 1, _id : id})
+            .then(data => {               
+                res.send(data);
+            })
+            .catch(err => {
+                res.status(404).send('error en busqueda');
+            });
+        
+        
     },
     crear: (req, res) => {
             const body = req.body;                       

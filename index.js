@@ -1,10 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
+require('dotenv').config();
+
 const routerContactos = require('./src/routes/api');
 const app = express();
 
-const port = 3000;
+const port = process.env.PORT;
 app.use(routerContactos);
 
 app.get('',(req, res) => {
@@ -12,7 +14,7 @@ app.get('',(req, res) => {
 });
 
 
-const uri = 'mongodb+srv://user:1234@cluster0.syy9wye.mongodb.net/agenda_de_contactos?retryWrites=true&w=majority';
+const uri = process.env.MONGODB;
 
 mongoose.connect(uri, (err) => {
 if(err){
