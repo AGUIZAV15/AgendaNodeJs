@@ -2,13 +2,19 @@ const jwt = require('jsonwebtoken');
 const modelo = require('./../model/usuario');
 
 require('dotenv').config();
+const crypto = require('crypto');
 // find equivale a el select
+
+function hashPassword(pwd) {
+	return crypto.scryptSync(pwd,'secret',24);
+}
+
 
 module.exports = {
 	login: (req,res) => {
 		const credenciales = {
 			correo : req.body.correo,
-			password : req.body.password
+			password : hashPassword(req.body.password)
 		};
 		
 		modelo.findOne(credenciales).then(response => {
@@ -25,8 +31,11 @@ module.exports = {
 		});
 	},
 	registro: (req, res) => {
- const body = req.body;                       
-            modelo.create(body).then(Response => {                
+ 	const body = req.body; 
+ 	const hashedPassword = hashPassword(body.password);
+ 	body.password = hashedPassword;
+            modelo.create(body).then(Response => {   
+				         
                 res.send(Response);
             });
     }
