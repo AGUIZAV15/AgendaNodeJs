@@ -58,7 +58,9 @@ module.exports = {
             body.userId = req.user._id;
             contacto.create(body).then(Response => {                
                 res.send(Response);
-            });
+            }).catch(err => {
+                res.status(404).send('Favor de verificar los datos ingresados,  el correo ingresado ya se encuentra en uso');
+            });  
     },
 
     guardar: (req, res) => {
@@ -74,7 +76,7 @@ module.exports = {
                     });                                                          
                 })
                 .catch(err => {
-                    res.status(404).send('error en busqueda');
+                    res.status(404).send('No se pudieron actualizar los datos, verifique los datos administrados y el correo principalmente');
                 });          
         
     },
@@ -89,7 +91,7 @@ module.exports = {
                     
                 })
                 .catch(err => {
-                    res.status(404).send('error en busqueda');
+                    res.sendStatus(404);
                 });
     }
    

@@ -22,7 +22,7 @@ module.exports = {
 				console.log(response);
 				const {_id, nombre} = response;
 				const token = jwt.sign({_id,nombre},process.env.SECRET);
-				res.send(token);
+				res.send({token, nombre});
 			}else{
 				res.sendStatus(401);
 			}
